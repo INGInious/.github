@@ -14,7 +14,12 @@ on:
         type: string
       registry:
         required: true
-        string: true
+        type: string
+    secrets:
+      GHCR_USERNAME:
+        required: true
+      GHCR_TOKEN:
+        required: true
 
 env:
   REGISTRY: ${{ inputs.registry }}
@@ -25,18 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # Get PIP dependencies
-      - name: Cache PIP
-        id: cache-pip
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cache/pip
-            ~/.local/lib/python${{env.PYTHON_VER}}
-          key: ${{ runner.os }}-pip
-
       - name: Install dependencies
-        if: steps.cache-pip.outputs.cache-hit != 'true'
         working-directory: ${{ inputs.working-directory }}
         run: |
           git clone https://github.com/INGInious/util-compose.git
@@ -44,7 +38,7 @@ jobs:
 
       - name: Generate compose file
         working-directory: ${{ inputs.working-directory }}/util-compose
-        run: python3 generate.py ${{ inputs.context-path}} ${{ inputs.compose-path }}
+        run: python3 generate.py ../${{ inputs.context-path}} ../${{ inputs.compose-path }}
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
