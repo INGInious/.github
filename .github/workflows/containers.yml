@@ -15,6 +15,9 @@ on:
       registry:
         required: true
         type: string
+      container_type:
+        required: true
+        type: string
     secrets:
       GHCR_USERNAME:
         required: true
@@ -23,6 +26,7 @@ on:
 
 env:
   REGISTRY: ${{ inputs.registry }}
+  TYPE: ${{ inputs.container_type }}
 
 jobs:
   containers_build_and_push:
