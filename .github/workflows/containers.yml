@@ -58,3 +58,4 @@ jobs:
           docker buildx create --use
           echo "FROM scratch" | docker buildx build -
           docker compose build --push
+          docker compose push
