@@ -30,7 +30,7 @@ env:
 
 jobs:
   containers_build_and_push:
-    runs-on: self-hosted
+    runs-on: [self-hosted]
     steps:
       - uses: actions/checkout@v2
 
